@@ -1,0 +1,52 @@
+# MIT License
+# 
+# .gitlab-ci-deploy.yml
+# 
+# Copyright (c) 2020 冬ノ夜空
+# 
+
+.deploy_script:
+  
+  before_script:
+    - echo "--- begin ---"
+    
+  script:
+    - cp -f .firebaserc firebase.json /fbwork/
+    - cp -f .gitlab-ci* /fbwork/
+    - cp -rf src /fbwork/
+    - cd /fbwork
+    - firebase deploy --project prod 
+                      --only hosting 
+                      --non-interactive 
+                      --token ${FIREBASE_TOKEN} 
+                      --message "Pipeline ${CI_PIPELINE_ID}, build ${CI_JOB_ID}"
+    
+  after_script:
+    - cd /fbwork
+    - rm -f .firebaserc firebase.json .gitlab-ci*
+    - rm -rf /fbwork/src
+    - echo "--- end ---"
+
+
+.dev_deploy_script:
+  
+  before_script:
+    - echo "--- begin ---"
+    
+  script:
+    - cp -f .firebaserc firebase.json /fbwork/
+    - cp -f .gitlab-ci* /fbwork/
+    - cp -rf src /fbwork/
+    - cd /fbwork
+    - firebase deploy --project dev 
+                      --only hosting 
+                      --non-interactive 
+                      --token ${FIREBASE_TOKEN} 
+                      --message "Pipeline ${CI_PIPELINE_ID}, build ${CI_JOB_ID}"
+    
+  after_script:
+    - cd /fbwork
+    - rm -f .firebaserc firebase.json .gitlab-ci*
+    - rm -rf /fbwork/src
+    - echo "--- end ---"
+    

@@ -1,0 +1,43 @@
+# MIT License
+# 
+# .gitlab-ci.yml
+# 
+# Copyright (c) 2020 冬ノ夜空
+# 
+
+default:
+  image: snoworld/swd-firebase
+
+stages:
+  - deploy
+
+include:
+  - local: .gitlab-ci-deploy.yml
+  
+deploy-prod:
+  stage: deploy
+  only:
+    refs:
+      - master
+    changes:
+      - src/**/*
+  image: snoworld/swd-firebase
+  environment:
+    name: production
+  when: manual
+  extends: .deploy_script
+
+
+deploy-dev:
+  stage: deploy
+  only:
+    refs:
+      - develop
+    changes:
+      - src/**/*
+  image: snoworld/swd-firebase
+  environment:
+    name: development
+  when: manual
+  extends: .dev_deploy_script
+  
