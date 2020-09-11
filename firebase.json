@@ -6,6 +6,7 @@
       "**/.*",
       "**/node_modules/**",
       ".gitlab-ci*",
+      "**/*.sh",
       "README.md"
     ]
   }

@@ -21,7 +21,7 @@ fi
 
 # create config.js
 cat << EOF > $outfile
-const = $(NODE_FB_ENV=${env} node ${inoutjs});
+const config = $(NODE_FB_ENV=${env} node ${inoutjs});
 
 EOF
 
